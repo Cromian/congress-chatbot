@@ -1,7 +1,7 @@
 <?php
 // Libraries
 include ('lib/bitly.php');
-include ('key.php');
+include ('lib/key.php');
 
 // show data for just the bot
 function sendMessage($parameters) {
