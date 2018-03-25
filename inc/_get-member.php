@@ -14,36 +14,52 @@ $rep_data = array_shift($rep_data);
 $verifty_state = end($rep_data); 
 
 $return_rep = '';
-if ($getmember === 'senator') 
-{
-    $senate_array = array_slice($rep_data, -2, 2, true);
-    foreach ($senate_array as $sen) {
-        $return_rep .= $sen['name'] . ', ';
-    }
+
+// If zipcode is DC
+if (($zipcode >= 20001) && ($zipcode <= 20456)) {
+
+    $return_rep = 'Rep. Eleanor Holmes Norton';
+
 }
-else
-{
-    $i = 0;
-    $len = count($rep_data);
-    foreach ($rep_data as $rep) {
+else {
 
-        if ($rep['state'] === $verifty_state['state']) 
-        {
-            // Determine if Rep. or Sen by office location. 
-            if (strpos(strtolower($rep['office']), 'senate') !== false)
-            {
-                $rep_type = '(Sen.)';
-            }
-            else
-            {
-                $rep_type = '(Rep.)';
-            }
-
-            $return_rep .= $rep['name'] . ' ' . $rep_type . ', ';
+    if ($getmember === 'senator') 
+    {
+        $senate_array = array_slice($rep_data, -2, 2, true);
+        foreach ($senate_array as $sen) {
+            $return_rep .= $sen['name'] . ', ';
         }
-        $i++;   
     }
+    else
+    {
+        $i = 0;
+        $len = count($rep_data);
+        foreach ($rep_data as $rep) {
+    
+            if ($rep['state'] === $verifty_state['state']) 
+            {
+                // Determine if Rep. or Sen by office location. 
+                if (strpos(strtolower($rep['office']), 'senate') !== false)
+                {
+                    $rep_type = '(Sen.)';
+                }
+                else
+                {
+                    $rep_type = '(Rep.)';
+                }
+    
+                $return_rep .= $rep['name'] . ' ' . $rep_type . ', ';
+            }
+            $i++;   
+        }
+    }
+
+
 }
+
+
+
+
 
 $message = $return_rep ;
 $display_text = 'Webhook getMember';
